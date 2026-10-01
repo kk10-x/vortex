@@ -82,7 +82,9 @@ export class Api {
 
   connect(): Promise<Mode> {
     return new Promise((resolve) => {
-      const proto = location.protocol === "https:" ? "wss" : "ws";
+      // Relative to the page URL so the app also works when mounted under a path prefix (e.g. /vortex/).
+      const wsUrl = new URL("events", document.baseURI);
+      wsUrl.protocol = wsUrl.protocol === "https:" ? "wss:" : "ws:";
       let settled = false;
       const fallback = () => {
         if (settled) return;
@@ -94,7 +96,7 @@ export class Api {
       };
       const timer = setTimeout(fallback, 1500);
       try {
-        const ws = new WebSocket(`${proto}://${location.host}/events`);
+        const ws = new WebSocket(wsUrl);
         this.ws = ws;
         ws.onmessage = (m) => {
           if (!settled) {
@@ -117,7 +119,7 @@ export class Api {
   }
 
   private post(path: string, body?: unknown) {
-    return fetch(path, {
+    return fetch(new URL(path, document.baseURI), {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(body ?? {}),
@@ -126,19 +128,19 @@ export class Api {
 
   setConfig(patch: { strategy?: Strategy; rps?: number; rateLimit?: { rate?: number; burst?: number } }) {
     if (this.sim) this.sim.applyConfig(patch);
-    else void this.post("/api/config", patch);
+    else void this.post("api/config", patch);
   }
   kill(id: number) {
     if (this.sim) this.sim.kill(id);
-    else void this.post(`/api/workers/${id}/kill`);
+    else void this.post(`api/workers/${id}/kill`);
   }
   revive(id: number) {
     if (this.sim) this.sim.revive(id);
-    else void this.post(`/api/workers/${id}/revive`);
+    else void this.post(`api/workers/${id}/revive`);
   }
   burst(n: number) {
     if (this.sim) this.sim.burst(n);
-    else void this.post("/api/burst", { n });
+    else void this.post("api/burst", { n });
   }
 }
 

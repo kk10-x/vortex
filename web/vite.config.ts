@@ -3,6 +3,7 @@ import { defineConfig } from "vite";
 // In dev, the Vite server proxies API + WebSocket traffic to the gateway on :8080.
 export default defineConfig({
   root: "web",
+  base: "./",
   server: {
     port: 5173,
     fs: { allow: [".."] },
