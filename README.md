@@ -1,4 +1,5 @@
 # Vortex
+n[![demo](https://img.shields.io/badge/demo-live-brightgreen)](https://bella.taile86535.ts.net:10000/vortex/)
 
 A scroll-driven 3D tour of a real gateway and three worker processes. Every particle is an actual HTTP request, so when you kill a worker, the process really dies and the retries you see really happened.
 
@@ -45,7 +46,7 @@ Most load-balancer and rate-limiter visualisers animate a scripted simulation. V
 
 ## Setup
 
-Requires Node 20 or newer.
+Requires Node 20 or newer (or Docker: `docker compose up -d --build` serves it on 127.0.0.1:8190).
 
 ```bash
 npm install
