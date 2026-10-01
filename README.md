@@ -1,5 +1,6 @@
 # Vortex
-n[![demo](https://img.shields.io/badge/demo-live-brightgreen)](https://bella.taile86535.ts.net:10000/vortex/)
+
+[![demo](https://img.shields.io/badge/demo-live-brightgreen)](https://bella.taile86535.ts.net:10000/vortex/)
 
 A scroll-driven 3D tour of a real gateway and three worker processes. Every particle is an actual HTTP request, so when you kill a worker, the process really dies and the retries you see really happened.
 
